@@ -1,0 +1,39 @@
+هل يبقا
+
+name: Alhadath 24 Auto Update
+
+on:
+  schedule:
+    # التحديث الآن كل 30 دقيقة بالضبط
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4 lxml
+
+      - name: Run Scraper
+        run: python scraper.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "Alhadath24-Bot"
+          git config --global user.email "bot@alhadath24.com"
+          git add index.html
+          git commit -m "Auto Update News: $(date)" || exit 0
+          git push
