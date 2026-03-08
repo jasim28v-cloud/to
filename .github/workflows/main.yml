@@ -1,10 +1,7 @@
-هل يبقا
-
 name: Alhadath 24 Auto Update
 
 on:
   schedule:
-    # التحديث الآن كل 30 دقيقة بالضبط
     - cron: '*/30 * * * *'
   workflow_dispatch:
 
@@ -21,11 +18,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.9' # تحديد نسخة مستقرة
 
       - name: Install dependencies
         run: |
-          pip install requests beautifulsoup4 lxml
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml 
 
       - name: Run Scraper
         run: python scraper.py
